@@ -1,37 +1,30 @@
 import React, { useReducer } from "react";
-import { Button } from "react-bootstrap";
+import { TodoList } from "..";
+import { TodosContext } from "../../store";
 
-const InitialState = { count: 0 };
+const TodosInitialState = {
+  todos: [
+    { id: 1, text: "finishing, writing hooks chapter" },
+    { id: 2, text: "play with kids" },
+    { id: 3, text: "read a story for mark" },
+  ],
+};
 
-function reducer(state, action) {
+function todosReducer(state, action) {
   switch (action.type) {
-    case "increment":
-      return { count: state.count + 1 };
-    case "decrement":
-      return { count: state.count - 1 };
-    case "reset":
-      return InitialState;
     default:
-      return InitialState;
+      return TodosInitialState;
   }
 }
 
 function App() {
-  const [state, setState] = useReducer(reducer, InitialState);
+  const [state, dispatch] = useReducer(todosReducer, TodosInitialState);
 
   return (
     <>
-      <h1>Count: {state.count} </h1>
-      <Button onClick={() => setState({ type: "increment" })}>Increment</Button>
-      <Button
-        variant="secondary"
-        onClick={() => setState({ type: "decrement" })}
-      >
-        Decrement
-      </Button>
-      <Button variant="success" onClick={() => setState({ type: "reset" })}>
-        Reset
-      </Button>
+      <TodosContext.Provider value={{ state, dispatch }}>
+        <TodoList />
+      </TodosContext.Provider>
     </>
   );
 }

@@ -1,9 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import './index.css';
+import React from "react";
+import ReactDOM from "react-dom";
+import { App } from "./components";
+import "./index.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+export const UserContext = React.createContext();
+const userName = "greg";
 
 ReactDOM.render(
-  <App />,
-  document.getElementById('root')
+  <UserContext.Provider value={userName}>
+    <App />
+  </UserContext.Provider>,
+  document.getElementById("root")
 );

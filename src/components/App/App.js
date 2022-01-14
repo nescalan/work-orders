@@ -1,24 +1,38 @@
-import React, { Component } from "react";
-import logo from "../../assets/index";
-import "./App.css";
-import { UserContext } from "../..";
+import React, { useReducer } from "react";
+import { Button } from "react-bootstrap";
+
+const InitialState = { count: 0 };
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "increment":
+      return { count: state.count + 1 };
+    case "decrement":
+      return { count: state.count - 1 };
+    case "reset":
+      return InitialState;
+    default:
+      return InitialState;
+  }
+}
 
 function App() {
-  return (
-    <div className="App">
-      <UserContext.Consumer>
-        {" "}
-        {(value) => <div>Recived, {value} </div>}{" "}
-      </UserContext.Consumer>
+  const [state, setState] = useReducer(reducer, InitialState);
 
-      {/* <div className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h2>Welcome to React</h2>
-      </div>
-      <p className="App-intro">
-        To get started, edit <code>src/App.js</code> and save to reload.
-      </p> */}
-    </div>
+  return (
+    <>
+      <h1>Count: {state.count} </h1>
+      <Button onClick={() => setState({ type: "increment" })}>Increment</Button>
+      <Button
+        variant="secondary"
+        onClick={() => setState({ type: "decrement" })}
+      >
+        Decrement
+      </Button>
+      <Button variant="success" onClick={() => setState({ type: "reset" })}>
+        Reset
+      </Button>
+    </>
   );
 }
 
